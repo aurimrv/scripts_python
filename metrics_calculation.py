@@ -1,6 +1,6 @@
 # Script para a geração da planilha de métricas estáticas
 # Demanda que esteja instalada a ferramenta 
-# radon (https://pypi.org/project/radon/) do python 
+# radon (https://pypi.org/project/radon/) do Python 
 # para correto funcionamento
 
 import sys
