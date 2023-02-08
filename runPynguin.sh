@@ -31,5 +31,5 @@ do
 	echo "Processing program $clazz"
 	cd "${baseDir}/${module}"
 
-	pynguin --project-path ./ --output-path ./$algorithm --module-name $module -v --create-coverage-report True --algorithm=$algorithm --seed $seed --maximum-search-time $maxTimeout	
+	pynguin --project-path ./ --output-path ./$algorithm --module-name $module -v --create-coverage-report True --algorithm=$algorithm --seed $seed --maximum-search-time $maxTimeout
 done
