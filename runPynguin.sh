@@ -3,7 +3,7 @@
 if (($# < 6))
 then
 	echo "error: runPynguin.py <project root dir> <algorithm1> <algorithm2> <algorithm3> <algorithm4> <seed> [max_timeout(s)]"
-	echo "Example: runPynguin.py /home/auri/temp/lucca/python_experiments DYNAMOSA 1234 5"
+	echo "Example: runPynguin.py /home/auri/temp/lucca/python_experiments DYNAMOSA MOSA MIO WHOLE_SUITE 1234 5"
 	exit
 fi
 
