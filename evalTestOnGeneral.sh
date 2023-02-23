@@ -2,17 +2,15 @@
 
 if (($# < 2))
 then
-	echo "error: mutatePynguin.py <project root dir> <algorithm>"
-	echo "Example: mutatePynguin.py /home/auri/temp/lucca/python_experiments DYNAMOSA"
+	echo "error: evalTestOnMutPy.py <project root dir> <test case directory>"
+	echo "Example: evalTestOnMutPy.py /home/auri/temp/lucca/python_experiments DYNAMOSA"
 	exit
 fi
 
 baseDir=$1
-algorithm=$2
+tcDir=$2
 
 projectsData=$(cat "${baseDir}/files.txt")
-
-tcName="test_pynguin_${algorithm}.py"
 
 for project in $projectsData
 do
@@ -23,10 +21,8 @@ do
 
 	echo "Processing program $clazz"
 	cd "${baseDir}/${module}"
-    #cp ${module}.py ./${algorthm}
-    #cd ./${algorthm}
 
-	time mut.py -t ${module}.py -u ./${algorithm}/test_${module}.py --runner pytest --report-html ./${algorithm}/mutpy;
+	time mut.py -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/mutpy;
 
     time mutmut run --paths-to-mutate ${module}.py --tests-dir ./${algorithm}/test_${module}.py --runner "\"python3 -m pytest test_${module}.py\"";
     mutmut html;
