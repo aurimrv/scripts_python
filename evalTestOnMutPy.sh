@@ -10,6 +10,8 @@ fi
 baseDir=$1
 tcDir=$2
 
+tool=mutpy
+
 projectsData=$(cat "${baseDir}/files.txt")
 
 for project in $projectsData
@@ -22,11 +24,14 @@ do
 	echo "Processing program $clazz"
 	cd "${baseDir}/${module}"
 
-	cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/mutpy"
+	# Cleaning previous report
+	rm -rf ./${tcDir}/${tool}
 
-	/usr/bin/time -o mutpy.time --quiet -p $cmd >& mutpy.out
+	cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/${tool}"
 
-	mv mutpy.time mutpy.out ./${tcDir}/mutpy
+	/usr/bin/time -o ${tool}.time --quiet -p $cmd >& ${tool}.out
+
+	mv ${tool}.time ${tool}.out ./${tcDir}/${tool}
 
 	rm -rf __pycache__
 	rm -rf ./${tcDir}/__pycache__

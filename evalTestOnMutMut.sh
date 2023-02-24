@@ -2,13 +2,15 @@
 
 if (($# < 2))
 then
-	echo "error: evalTestOnMutPy.py <project root dir> <test case directory>"
-	echo "Example: evalTestOnMutPy.py /home/auri/temp/lucca/python_experiments DYNAMOSA"
+	echo "error: evalTestOnMutMut.py <project root dir> <test case directory>"
+	echo "Example: evalTestOnMutMut.py /home/auri/temp/lucca/python_experiments DYNAMOSA"
 	exit
 fi
 
 baseDir=$1
 tcDir=$2
+
+tool=mutmut
 
 projectsData=$(cat "${baseDir}/files.txt")
 
@@ -22,12 +24,20 @@ do
 	echo "Processing program $clazz"
 	cd "${baseDir}/${module}"
 
-	cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/mutpy"
+	# Cleaning previous report
+	rm -rf ./${tcDir}/${tool}
 
-	/usr/bin/time -o mutpy.time --quiet -p $cmd >& mutpy.out
+	# MutMut execution command line
+	/usr/bin/time -o ${tool}.time --quiet -p mutmut run --paths-to-mutate ${module}.py --tests-dir ./${tcDir} --runner "python3 -m pytest ./${tcDir}" >& ${tool}.out
 
-	mv mutpy.time mutpy.out ./${tcDir}/mutpy
+	mutmut html
 
+	mv html ./${tcDir}/${tool}
+	
+	mv ${tool}.time ${tool}.out ./${tcDir}/${tool}
+
+	rm .${tool}-cache
+	rm -rf .pytest_cache
 	rm -rf __pycache__
 	rm -rf ./${tcDir}/__pycache__
 done
