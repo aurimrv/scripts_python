@@ -2,8 +2,8 @@
 
 if (($# < 1))
 then
-	echo "error: validateTestCases.py <project root dir> <algoritms>"
-	echo "Example: validateTestCases.py /home/auri/temp/lucca/python_experiments MIO MOSA WHOLE_SUITE DYNAMOSA RANDOM"
+	echo "error: validateTestSet.py <project root dir> <algoritms>"
+	echo "Example: validateTestSet.py /home/auri/temp/lucca/python_experiments MIO MOSA WHOLE_SUITE DYNAMOSA RANDOM"
 	echo "You may provide one or more algorithms names"
 	exit
 fi
@@ -24,7 +24,7 @@ do
 
 	echo $(pwd)
 
-	for tcDir in $2 $3 $4 $5 $6
+	for tcDir in $2 $3 $4 $5 $6 $7 $8 $9 
 	do
 		testSet="test_${module}_${tcDir}.py"
 		testSetOutput="test_${module}_${tcDir}.out"

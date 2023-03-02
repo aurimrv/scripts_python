@@ -41,8 +41,8 @@ def test_case_5():
     assert var_1 is True
 ```
 
-## Combining parser programs to generate a test set subset
+## Combining parser programs to generate a subset of a test test set
 
 ```
-python tc_counter.py ../../binarySearchTree1/MIO/test_binarySearchTree1_MIO.py | xargs ./tc_list_reordered.py 8 5 | xargs ./tc_subset.py ../../binarySearchTree1/MIO/test_binarySearchTree1_MIO.py 
+python tc_list.py ../../binarySearchTree1/MIO/test_binarySearchTree1_MIO.py | xargs ./tc_list_reordered.py 8 5 | xargs ./tc_subset.py ../../binarySearchTree1/MIO/test_binarySearchTree1_MIO.py 
 ```

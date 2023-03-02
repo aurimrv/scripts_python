@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 '''
-This utility counts how many Pynguin generated tests exists on a test set file
+This utility list the number of a Pynguin generated tests set
 
 USAGE:
-     python tc_counter.py <Pynguin test set>
+     python tc_list.py <Pynguin test set>
 '''
 import ast
 import sys
@@ -51,7 +51,7 @@ def main(filename=None):
 
 if __name__ == '__main__':
     if len(sys.argv) <=1:
-        print("\nUSAGE:\n\t tc_counter.py <Pynguin test set>")
+        print("\nUSAGE:\n\t tc_list.py <Pynguin test set>")
         sys.exit(1)
     else:
         main(sys.argv[1])
