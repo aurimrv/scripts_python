@@ -51,7 +51,7 @@ do
 	    cr-report ${module}.sqlite --show-pending >& ./${tcDir}/${tool}/report_cosmicray.txt
 	    cr-html ${module}.sqlite > ./${tcDir}/${tool}/report_cosmicray.html
 	else 
-	  echo "Error on test cases. Please, check ${tool}.out" 
+	  echo "Error on test cases. Please, check ${tool}.baseline" 
 	fi
 
 	mv ${tool}.time ${tool}.baseline ${tool}.out ./${tcDir}/${tool}
