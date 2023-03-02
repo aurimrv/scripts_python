@@ -40,3 +40,9 @@ def test_case_5():
     var_1 = identifier_0.validateIdentifier(str_1)
     assert var_1 is True
 ```
+
+## Combining parser programs to generate a test set subset
+
+```
+python tc_counter.py ../../binarySearchTree1/MIO/test_binarySearchTree1_MIO.py | xargs ./tc_list_reordered.py 8 5 | xargs ./tc_subset.py ../../binarySearchTree1/MIO/test_binarySearchTree1_MIO.py 
+```
