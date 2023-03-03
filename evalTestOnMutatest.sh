@@ -26,6 +26,7 @@ do
 
 	# Cleaning previous report
 	rm -rf ./${tcDir}/${tool}
+	mkdir ./${tcDir}/${tool}
 
 	/usr/bin/time -o ${tool}.time --quiet -p mutatest -s ${module}.py -t "python -m pytest ./${tcDir}" -m f -o ${tcDir}/${tool}/${tcDir}-report.rst >& ${tool}.out
 

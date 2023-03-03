@@ -26,6 +26,7 @@ do
 
 	# Cleaning previous report
 	rm -rf ./${tcDir}/${tool}
+	mkdir ./${tcDir}/${tool}
 
 	# MutMut execution command line
 	/usr/bin/time -o ${tool}.time --quiet -p mutmut run --paths-to-mutate ${module}.py --tests-dir ./${tcDir} --runner "python3 -m pytest ./${tcDir}" >& ${tool}.out

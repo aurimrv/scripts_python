@@ -26,7 +26,6 @@ do
 
 	# Cleaning previous report
 	rm -rf ./${tcDir}/${tool}
-
 	mkdir ./${tcDir}/${tool}
 
 	# Generating cosmic configuration file

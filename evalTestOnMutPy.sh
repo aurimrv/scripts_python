@@ -26,6 +26,7 @@ do
 
 	# Cleaning previous report
 	rm -rf ./${tcDir}/${tool}
+	mkdir ./${tcDir}/${tool}
 
 	cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/${tool}"
 
