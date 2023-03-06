@@ -1,9 +1,12 @@
 #!/usr/bin/bash
+#######################################################################
+# Script that runs MutMut mutation tool in a set of programs
+#######################################################################
 
 if (($# < 2))
 then
-	echo "error: evalTestOnMutMut.py <project root dir> <test case directory>"
-	echo "Example: evalTestOnMutMut.py /home/auri/temp/lucca/python_experiments DYNAMOSA"
+	echo "error: evalTestOnMutMut.sh <project root dir> <test case directory>"
+	echo "Example: evalTestOnMutMut.sh /home/auri/temp/lucca/python_experiments DYNAMOSA"
 	exit
 fi
 

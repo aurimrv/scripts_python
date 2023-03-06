@@ -1,9 +1,13 @@
 #!/usr/bin/bash
+##############################################################################
+# This script parses Pynguin generated test sets looking for possible
+# problens related to "xfails" annotations.
+#############################################################################
 
 if (($# < 2))
 then
-	echo "error: parsePynguin.py <project root dir> <algorithm>"
-	echo "Example: parsePynguin.py /home/auri/temp/lucca/python_experiments <DYNAMOSA | MOSA | MIO | WHOLE_SUITE | RANDOM>"
+	echo "error: parsePynguin.sh <project root dir> <algorithm>"
+	echo "Example: parsePynguin.sh /home/auri/temp/lucca/python_experiments <DYNAMOSA | MOSA | MIO | WHOLE_SUITE | RANDOM>"
 	exit
 fi
 

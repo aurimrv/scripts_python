@@ -10,8 +10,8 @@ import json
 
 def main():
 	if len(sys.argv) < 4:
-		print("error: mutation_data_collection.py <project root dir> <algorithm> <seed> [max_timeout(s)]")
-		print("Example: python mutation_data_collection.py /home/auri/temp/lucca/python_experiments DYNAMOSA 1234 5")
+		print("error: mutationDataCollection.py <project root dir> <algorithm> <seed> [max_timeout(s)]")
+		print("Example: python mutationDataCollection.py /home/auri/temp/lucca/python_experiments DYNAMOSA 1234 5")
 		sys.exit(1)
 	
 	baseDir = sys.argv[1]

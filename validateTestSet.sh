@@ -1,9 +1,13 @@
 #!/usr/bin/bash
-
+#####################################################################
+# This scripts ensure all test case in a test set runs successfully
+# Before executing mutation testing tools, all test set must be
+# running successfully.
+#####################################################################
 if (($# < 1))
 then
-	echo "error: validateTestSet.py <project root dir> <algoritms>"
-	echo "Example: validateTestSet.py /home/auri/temp/lucca/python_experiments MIO MOSA WHOLE_SUITE DYNAMOSA RANDOM"
+	echo "error: validateTestSet.sh <project root dir> <algoritms>"
+	echo "Example: validateTestSet.sh /home/auri/temp/lucca/python_experiments MIO MOSA WHOLE_SUITE DYNAMOSA RANDOM"
 	echo "You may provide one or more algorithms names"
 	exit
 fi

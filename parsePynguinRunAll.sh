@@ -2,8 +2,8 @@
 
 if (($# < 1))
 then
-	echo "error: parsePynguinRunAll.py <project root dir>"
-	echo "Example: parsePynguinRunAll.py /home/auri/temp/lucca/python_experiments"
+	echo "error: parsePynguinRunAll.sh <project root dir>"
+	echo "Example: parsePynguinRunAll.sh /home/auri/temp/lucca/python_experiments"
 	exit
 fi
 

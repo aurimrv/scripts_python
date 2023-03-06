@@ -1,7 +1,7 @@
-# Script para a geração da planilha de métricas estáticas
-# Demanda que esteja instalada a ferramenta 
-# radon (https://pypi.org/project/radon/) do Python 
-# para correto funcionamento
+#########################################################
+# Script for collecting static metrics for a set of 
+# Python files
+#########################################################
 
 import sys
 import os
@@ -11,8 +11,8 @@ import json
 
 def main():
 	if len(sys.argv) < 2:
-		print("error: metrics_calculation.py <project root dir>")
-		print("Example: python metrics_calculation.py /home/auri/temp/lucca/python_experiments")
+		print("error: metricsCalculation.py <project root dir>")
+		print("Example: python metricsCalculation.py /home/auri/temp/lucca/python_experiments")
 		sys.exit(1)
 
 	baseDir = sys.argv[1]

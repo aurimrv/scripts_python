@@ -1,9 +1,13 @@
 #!/usr/bin/bash
-
+#######################################################################
+# This script executes pynguin test generator in a set of projects
+# to create test set based on an specific supported algorithm:
+# DYNAMOSA, MIO, MOSA, WHOLE_SUITE, and RANDOM
+#######################################################################
 if (($# < 3))
 then
-	echo "error: runPynguin.py <project root dir> <algorithm> <seed> [max_timeout(s)]"
-	echo "Example: runPynguin.py /home/auri/temp/lucca/python_experiments DYNAMOSA 1234 5"
+	echo "error: runPynguin.sh <project root dir> <algorithm> <seed> [max_timeout(s)]"
+	echo "Example: runPynguin.sh /home/auri/temp/lucca/python_experiments DYNAMOSA 1234 5"
 	exit
 fi
 

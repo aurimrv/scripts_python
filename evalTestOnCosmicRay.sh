@@ -1,9 +1,12 @@
 #!/usr/bin/bash
+#######################################################################
+# Script that runs Cosmic.Ray mutation tool in a set of programs
+#######################################################################
 
 if (($# < 2))
 then
-	echo "error: evalTestOnMutatest.py <project root dir> <test case directory>"
-	echo "Example: evalTestOnMutatest.py /home/auri/temp/lucca/python_experiments DYNAMOSA"
+	echo "error: evalTestOnCosmicRay.sh <project root dir> <test case directory>"
+	echo "Example: evalTestOnCosmicRay.sh /home/auri/temp/lucca/python_experiments DYNAMOSA"
 	exit
 fi
 
