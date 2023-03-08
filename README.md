@@ -38,3 +38,21 @@ First field `bsf` means that, from the `<project root dir>`, we have a directory
 
 In the current project, we have a file, named `files.txt` with the content specified above.
 
+### Static Metrics
+
+### Pynguin test sets for each algorithm
+
+### Correct Pynguin test set
+
+### Validate Test Set
+
+### Coverage measure
+
+### Evaluate test sets on mutation tools
+
+### Merge test set
+   Return to ### Coverage Measure
+
+### Generate Summary Reports
+ - Coverage
+ - Mutations tools

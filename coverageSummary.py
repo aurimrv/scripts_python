@@ -19,7 +19,7 @@ def main():
 	testSet = sys.argv[3]
 	prjList = baseDir+"/"+dataFile
 	
-	prjReport = baseDir+"/report-coverage.csv"
+	prjReport = baseDir+"/report-coverage-"+testSet+".csv"
 
 	dados = open(prjList, 'r')
 	output = open(prjReport, 'w') 
