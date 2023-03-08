@@ -1,0 +1,32 @@
+# Scripts execution
+
+These scripts are responsible to run and collect the experimentation data from different testing tools. Below we explain the order and parameters used to call each one of them.
+
+In general, we have two kinds of scripts. The one which runs on a single project and the other which runs over a set of programs, calling the scripts for each individual program.
+
+Additionally, all the scripts demands a parameter indicating the so-called `<project root dir>`, which corresponds to the complete path until the projects under testing.
+
+## How to specify the CSV file indicating the projects under testing
+
+From the `<project root dir>`, we need to specify the set of programs under testing. We do it by providing for some scripts a text file with a content similar to the one below:
+
+```
+bfs:breadth_first_search.py:search
+binheap:binheap.py:data-structure
+bst1:binary_search_tree.py:data-structure
+bst1:bst2.py:data-structure
+...
+```
+
+It is a comma separated value, actually we are using colon (`:`) as field separator.
+
+The two first fields are mandatory, they represent the name of the directory containing the project ander testing, and the name of the module under testing. Other fields are optional. For instance, considering the first line of the file above:
+
+```
+bfs:breadth_first_search.py:search
+```
+
+First field `bsf` means that, from the `<project root dir>`, we have a directory called `bsf` and inside this directory we have a file named `breadth_first_search.py`. In this particular example, we also have a third field, `search`, which indicates the kind of project we are dealing with.
+
+In the current project, we have a file, named `files.txt` with the content specified above.
+
