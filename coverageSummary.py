@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Script para a geração da planilha de cobertura de código dos projetos.
 # Assume-se que existe um diretório coverage dentro de cada projeto 

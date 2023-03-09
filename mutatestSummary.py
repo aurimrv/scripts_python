@@ -49,6 +49,7 @@ def processingMutatestMetrics(prj, clazz, mutatestDir, testSet, output):
     reportFile = mutatestDir + "/"+ testSet +"-report.rst"
     with open(reportFile, 'r') as f:
         for linha in f:
+            killedMutants = 0
             matchKilled = re.search(r'- DETECTED: (\d+)', linha)
             if matchKilled:
                 killedMutants = int(matchKilled.group(1))
