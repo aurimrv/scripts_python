@@ -42,8 +42,6 @@ do
 
 	cd "${baseDir}/${module}"
 
-	reportOutput="report-number-of-test-cases.csv"
-
 	echo -n "${project};${clazz}" >> ${baseDir}/${reportOutput}
 
 	testSetsData=$(cat "${baseDir}/${tsDataFile}")	
