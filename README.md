@@ -42,17 +42,58 @@ In the current project, we have a file, named `files.txt` with the content speci
 
 ### Pynguin test sets for each algorithm
 
+Utilizing the script `runPynguin.sh`, we can execute the automatic test set generator with different algorithms.
+
+There are a few mandatory parameters, such as: `<project root dir>`, `<algorithm>` and `<seed>`. It is also possible to include the optional paramenter `<max_timeout(s)>`.
+
+The five possible algorithms for test generation are: DYNAMOSA, MIO, MOSA, WHOLE_SUITE and RANDOM.
+
+After execution, a folder `./algorithm` will be created inside the corresponding project root directory file as indicated in `files.txt`. This folder will include a test set file. 
+
 ### Correct Pynguin test set
+
+It is necessary to correct the Pynguin generated test sets so it can be correctly processed by the mutation tools.
+
+For this, the `parsePynguin.sh` script must be executed with the mandatory parameters `<project root dir>` and `<algorithm>`.
+
+As a way to make this process faster, the `parsePynguinRunALL.sh` script can be executed with all the algorithms listed before, only needing the `<project root dir>` parameter.
 
 ### Validate Test Set
 
+So that we can verify that all the generated test sets are working as expected, the `validateTestSet.sh` script must be executed. It will run all the tests located in `<project root dir>`.
+
+In this script, at least one algorithm can be passed as a parameter, but it also accepts multiple at the same time.
+
 ### Coverage measure
+
+With all the tests generated, `coverageSummary.py` can be run to generate a csv report of the coverage metrics of all of the programs included in `filex.txt`.
+
+It recieves the mandatory parameters `<project root dir>`, `<data-file>` and `<test-set>`, the later usually being the name of the algorithm used to generate the test set.
 
 ### Evaluate test sets on mutation tools
 
+The next step is to run all of the previously mentioned mutation tools on the generated test sets. 
+
+So that can be possible, there is one script for each tool: `<evalTestOnMutPy.sh>`, `<evalTestOnMutMut.sh>`, `<evalTestOnMutatest.sh>` and `<evalTestOnCosmicRay.sh>`.
+
+All of them require the mandatory parameters `<project root dir>` and `<test case directory>`.
+
+The generated output is a set of mutants inside the `test case directory/mutation tool`.
+
 ### Merge test set
-   Return to ### Coverage Measure
+
+So it is possible to evaluate the influence of the different test generating algorithm on each other, `mergeTestSet.sh` can be executed to combine different test sets in to one file, so it can be later evaluated with the mutation tools. 
+
+It requires the mandatory parameters `<project root dir>` and `<list of test sets directory to be merged>`.
+
+As there are new tests set generated, return to Coverage Measure to evaluate the mutation tools and coverage reports.
 
 ### Generate Summary Reports
- - Coverage
- - Mutations tools
+ 
+With all the desired combinations of test sets generated and evaluated, it is necessary to compile all the generated information of the mutation tools in easy-to-read csv files.
+
+For that to be possible, four different scripts to collect mutation information according to the tool were created: `<mutpySummary.sh>`, `<mutmutSummary.sh>`, `<mutatestSummary.sh>` and `<cosmicRaySummary.sh>`.
+
+The mandatory parameters are `<project root dir>`, `<data-file>` and `<test-set>`. The output is written in a csv file located in `<project root dir>`.
+ 
+It is also possible to collect the time data and compile it in another csv file utilizing `<timeSummary.sh>`. The parameters are the same as above but with one extra: `<mutation-tool>`.
