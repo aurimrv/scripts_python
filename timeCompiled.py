@@ -4,162 +4,50 @@
 # Cada coluna do novo arquivo simboliza uma combinação dos algoritmos da pynguin
 
 import sys
-import csv
 
 def main():
     if len(sys.argv) < 2:
-        print("error: timeCompiled.py <project root dir> <mutation-tool>")
-        print("Example: timeCompiled.py /home/auri/python_experiments2 cosmic-ray")
+        print("error: timeCompiled.py <project root dir> <mutation-tool> <test-sets file name>")
+        print("Example: timeCompiled.py /home/auri/python_experiments2 cosmic-ray test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]
     mutTool = sys.argv[2]
+    testSets = sys.argv[3]
 
     prjReport = baseDir+"/compiled-time-report-"+mutTool+".csv"
+    testSetsFileName = baseDir+"/"+testSets
 
     # cria uma lista vazia para armazenar os dados de cada arquivo
-    dados = []
+    summaryData = {}
 
-    # percorre cada um dos 16 arquivos CSV
-    file = baseDir+'/time-report-cosmic-ray-RANDOM.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        next(reader)
-
-        for indice, linha in enumerate(reader):
-            if indice >= 1 and indice <= 20:
-                valor = linha[2]
-                dados.append(valor)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-MIO.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
+    testSetCount = 1
+    with open(testSetsFileName) as testSetsFile:
+        for testSet in testSetsFile:
+          testSet = testSet.strip()
+          reportFileName = baseDir+"/time-report-"+mutTool+"-"+testSet+".csv"
+          lineCount = 0;
+          with open(reportFileName) as reportFile:
+            for line in reportFile:
+                if (lineCount == 0):
+                    lineCount = lineCount + 1
+                else:
+                    data = line.split(";")
+                    if (testSetCount == 1):
+                        summaryData[data[0]] = []
+                        summaryData[data[0]].append(data[1])
+                        summaryData[data[0]].append(data[2])
+                    else:
+                        summaryData[data[0]].append(data[2])
+            testSetCount = testSetCount + 1
     
-    file = baseDir+'/time-report-cosmic-ray-MOSA.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-MIO.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-    
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-MOSA.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-MIO-MOSA.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-MIO-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-MOSA-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-MIO-MOSA.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-MIO-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-MOSA-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-MIO-MOSA-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    file = baseDir+'/time-report-cosmic-ray-DYNAMOSA-MIO-MOSA-WHOLE_SUITE.csv'
-    with open(file, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-
-        coluna = [float(row[2]) for row in reader]
-
-        dados.append(coluna)
-
-    dados_t = list(map(list, zip(*dados)))
-
-    # escreve os dados em um novo arquivo CSV
-    with open(prjReport, 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        # escreve cada linha do arquivo resultado com as colunas de dados
-        for linha in dados_t:
-            writer.writerow(linha)
+    with open(prjReport,'w') as outputFile:
+        outputFile.write("project;filename;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n")
+        for key in summaryData.keys():
+            outputFile.write(key)
+            outputFile.write(";")
+            outputFile.write(';'.join(map(str, summaryData[key])))
+            outputFile.write("\n")
 
 if __name__ == "__main__":
     main()
