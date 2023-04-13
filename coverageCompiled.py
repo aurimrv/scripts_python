@@ -36,23 +36,18 @@ def main():
                     data = line.split(";")
                     if (testSetCount == 1):
                         summaryData[data[0]] = []
-                        summaryData[data[0]].append(data[1])
-                        if (typeOfCoverage == 'line'):
-                            summaryData[data[0]].append(data[2])
-                        if (typeOfCoverage == 'branch'):
-                            summaryData[data[0]].append(data[3])
-                    else:
-                        if (typeOfCoverage == 'line'):
-                            summaryData[data[0]].append(data[2])
-                        if (typeOfCoverage == 'branch'):
-                            summaryData[data[0]].append(data[3])
+                        #summaryData[data[0]].append(data[1])
+                    if (typeOfCoverage == 'line'):
+                        summaryData[data[0]].append(data[2])
+                    elif (typeOfCoverage == 'branch'):
+                        summaryData[data[0]].append(data[3])
             testSetCount = testSetCount + 1
     
     with open(prjReport,'w') as outputFile:
-        outputFile.write("project;filename;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n")
+        outputFile.write("1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n")
         for key in summaryData.keys():
-            outputFile.write(key)
-            outputFile.write(";")
+            #outputFile.write(key)
+            #outputFile.write(";")
             outputFile.write(';'.join(map(str, summaryData[key])))
             outputFile.write("\n")
 

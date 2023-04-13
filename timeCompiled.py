@@ -35,17 +35,15 @@ def main():
                     data = line.split(";")
                     if (testSetCount == 1):
                         summaryData[data[0]] = []
-                        summaryData[data[0]].append(data[1])
-                        summaryData[data[0]].append(data[2])
-                    else:
-                        summaryData[data[0]].append(data[2])
+                        #summaryData[data[0]].append(data[1])
+                    summaryData[data[0]].append(data[2])
             testSetCount = testSetCount + 1
     
     with open(prjReport,'w') as outputFile:
-        outputFile.write("project;filename;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n")
+        outputFile.write("1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n") # Excluding project information from output
         for key in summaryData.keys():
-            outputFile.write(key)
-            outputFile.write(";")
+            #outputFile.write(key)
+            #outputFile.write(";")
             outputFile.write(';'.join(map(str, summaryData[key])))
             outputFile.write("\n")
 

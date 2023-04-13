@@ -36,23 +36,18 @@ def main():
                     data = line.split(";")
                     if (testSetCount == 1):
                         summaryData[data[0]] = []
-                        summaryData[data[0]].append(data[1])
-                        if (mutTool == 'mutpy'):
-                            summaryData[data[0]].append(data[7])
-                        else:
-                            summaryData[data[0]].append(data[5])
-                    else:
-                        if (mutTool == 'mutpy'):
-                            summaryData[data[0]].append(data[7])
-                        else:
-                            summaryData[data[0]].append(data[5])
+                        #summaryData[data[0]].append(data[1])
+                    #if (mutTool == 'mutpy'):
+                    #    summaryData[data[0]].append(data[7])
+                    #else:
+                    summaryData[data[0]].append(data[len(data)-1])
             testSetCount = testSetCount + 1
     
     with open(prjReport,'w') as outputFile:
-        outputFile.write("project;filename;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n")
+        outputFile.write("1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16\n")
         for key in summaryData.keys():
-            outputFile.write(key)
-            outputFile.write(";")
+            #outputFile.write(key)
+            #outputFile.write(";")
             outputFile.write(';'.join(map(str, summaryData[key])))
             outputFile.write("\n")
 
