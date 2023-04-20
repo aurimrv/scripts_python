@@ -34,9 +34,9 @@ do
 	# Generating cosmic configuration file
 	echo "[cosmic-ray]" > ${module}.toml
 	echo "module-path = \"${module}.py\"" >> ${module}.toml
-	echo "timeout = 30.0" >> ${module}.toml
+	echo "timeout = 40.0" >> ${module}.toml
 	echo "excluded-modules = []" >> ${module}.toml
-	echo "test-command = \"python -m pytest --exitfirst ./${tcDir}\"" >> ${module}.toml
+	echo "test-command = \"python -m pytest --tb=no ./${tcDir}\"" >> ${module}.toml
 	echo "" >> ${module}.toml
 	echo "[cosmic-ray.distributor]" >> ${module}.toml
 	echo "name = \"local\"" >> ${module}.toml
