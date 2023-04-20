@@ -5,12 +5,12 @@
 
 import sys
 import os
-import re
+import sqlite3
 
 def main():
     if len(sys.argv) < 3:
         print("error: cosmicRaySummary.py <project root dir> <data-file> <test-set>")
-        print("Example: cosmicRaySummary.py /home/auri/python_experiments2 files.txt DYNAMOSA")
+        print("Example: cosmicRaySummary.py /home/auri/temp/lucca/python_experiments files.txt DYNAMOSA")
         sys.exit(1)
 
     baseDir = sys.argv[1]
@@ -23,7 +23,7 @@ def main():
     dados = open(prjList, 'r')
     output = open(prjReport, 'w') 
 
-    output.write("project;filename;mutants;killed;survived;mutation score\n")
+    output.write("project;filename;mutants;killed_output;killed_timeout;total_killed;survived;mutation score\n")
 
     for x in dados:
         x = x.strip()
@@ -45,20 +45,31 @@ def main():
     dados.close()
     output.close()
 
-
 def processingCosmicRayMetrics(prj, clazz, cosmicRayDir, output):
-    reportFile = cosmicRayDir + "/report_cosmicray.txt"
-    with open(reportFile, 'r') as f:
-        for linha in f:
-            matchTotal = re.search(r'complete: (\d+)', linha)
-            if matchTotal:
-                totalMutants = int(matchTotal.group(1))
-            matchSurviving = re.search(r'surviving mutants: (\d+)', linha)
-            if matchSurviving:
-                survivingMutants = int(matchSurviving.group(1))
-        killedMutants = totalMutants - survivingMutants
-        mutationScore = (killedMutants/totalMutants)*100
-        output.write("%s;%s;%d;%d;%d;%.2f\n" % (prj,clazz,totalMutants,killedMutants, survivingMutants, mutationScore))
-        
+    db_filename = cosmicRayDir + "/"+prj+".sqlite"
+    con = sqlite3.connect(db_filename)
+
+    cur = con.cursor()
+    # The result of a "cursor.execute" can be iterated over by row
+    cur.execute('SELECT count(*) FROM work_results WHERE test_outcome is "SURVIVED";')
+    row = cur.fetchone()
+    survivingMutants = int(row[0])
+
+    cur.execute('SELECT count(*) FROM work_results WHERE output is not "timeout" and test_outcome is "KILLED";')
+    row = cur.fetchone()
+    killedByOutputMutants = int(row[0])
+
+    cur.execute('SELECT count(*) FROM work_results WHERE output is "timeout" and test_outcome is "KILLED";')
+    row = cur.fetchone()
+    killedByTimeoutMutants = int(row[0])
+
+    con.close()
+
+    killedMutants = killedByOutputMutants + killedByTimeoutMutants
+    totalMutants = survivingMutants + killedMutants
+    mutationScore = (killedMutants/totalMutants)*100
+
+    output.write("%s;%s;%d;%d;%d;%d;%d;%.2f\n" % (prj,clazz,totalMutants,killedByOutputMutants,killedByTimeoutMutants,killedMutants,survivingMutants,mutationScore))
+
 if __name__ == "__main__":
     main()
