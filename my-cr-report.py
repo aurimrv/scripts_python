@@ -17,14 +17,17 @@ def main():
     cur = con.cursor()
 
     # The result of a "cursor.execute" can be iterated over by row
-    for row in cur.execute('SELECT count(*) FROM work_results WHERE test_outcome is "SURVIVED";'):
-        print("Survived: %d" %row)
+    cur.execute('SELECT count(*) FROM work_results WHERE test_outcome is "SURVIVED";')
+    row = cur.fetchone()
+    print("Survived: %d" %row[0])
 
-    for row in cur.execute('SELECT count(*) FROM work_results WHERE output is not "timeout" and test_outcome is "KILLED";'):
-        print("Killed by output: %d" %row)
+    cur.execute('SELECT count(*) FROM work_results WHERE output is not "timeout" and test_outcome is "KILLED";')
+    row = cur.fetchone()
+    print("Killed by output: %d" %row[0])
 
-    for row in cur.execute('SELECT count(*) FROM work_results WHERE output is "timeout" and test_outcome is "KILLED";'):
-        print("Killed by timeout: %d" %row)
+    cur.execute('SELECT count(*) FROM work_results WHERE output is "timeout" and test_outcome is "KILLED";')
+    row = cur.fetchone()
+    print("Killed by timeout: %d" %row[0])
 
     # Be sure to close the connection
     con.close()
