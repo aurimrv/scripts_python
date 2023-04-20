@@ -34,9 +34,9 @@ do
 	# Generating cosmic configuration file
 	echo "[cosmic-ray]" > ${module}.toml
 	echo "module-path = \"${module}.py\"" >> ${module}.toml
-	echo "timeout = 60.0" >> ${module}.toml
+	echo "timeout = 30.0" >> ${module}.toml
 	echo "excluded-modules = []" >> ${module}.toml
-	echo "test-command = \"python -m pytest ./${tcDir}\"" >> ${module}.toml
+	echo "test-command = \"python -m pytest --exitfirst ./${tcDir}\"" >> ${module}.toml
 	echo "" >> ${module}.toml
 	echo "[cosmic-ray.distributor]" >> ${module}.toml
 	echo "name = \"local\"" >> ${module}.toml
@@ -56,9 +56,12 @@ do
 	  echo "Error on test cases. Please, check ${tool}.baseline" 
 	fi
 
-	mv ${tool}.time ${tool}.baseline ${tool}.out ./${tcDir}/${tool}
+	mv ${module}.sqlite ${tool}.time ${tool}.baseline ${tool}.out ./${tcDir}/${tool}
 
 	rm -rf .pytest_cache
 	rm -rf __pycache__
 	rm -rf ./${tcDir}/__pycache__
+
+	#Removing unfinished python -m pytest process
+	pkill -f 'python -m pytest'
 done
