@@ -7,40 +7,45 @@
 
 if (($# < 3))
 then
-	echo "error: coverageReport.sh <project root dir> <data-file name> <test-set>"
-	echo "Example: coverageReport.sh /home/auri/temp/python_experiments2 files.txt 0-ts"
-	echo "files.txt must be inside <project root dir>"
-	exit
+   echo "error: coverageReport.sh <project root dir> <data-file name> <test-set-file>"
+   echo "Example: coverageReport.sh /home/auri/temp/python_experiments2 files.txt test-sets.txt"
+   echo "files.txt and test-set-files.txt must be inside <project root dir>"
+   exit
 fi
 
 baseDir=$1
 dataFile=$2
-testSet=$3
+testSetFile=$3
 
-projectsData=$(cat "${baseDir}/${dataFile}")
-
-for project in $projectsData
+# Iterando sobre o arquivo de test-sets
+testSetData=$(cat "${baseDir}/${testSetFile}")
+for testSet in $testSetData
 do
-	prjArr=($(echo $project | tr ":" "\n"))
-	prjDir="${prjArr[0]}"
-	clazz="${prjArr[1]}"
-	module="${clazz%%.*}"
+   projectsData=$(cat "${baseDir}/${dataFile}")
 
-	echo "Processing program $clazz"
-	cd "${baseDir}/${prjDir}"
+   for project in $projectsData
+   do
+      prjArr=($(echo $project | tr ":" "\n"))
+      prjDir="${prjArr[0]}"
+      clazz="${prjArr[1]}"
+      module="${clazz%%.*}"
 
-	echo -e "\tProcessing module ${module}"
+      echo "Processing program $clazz"
+      cd "${baseDir}/${prjDir}"
 
-	rm -rf "${testSet}/coverage" .coverage .pytest_cache __pycache__ htmlcov
+      echo -e "\tProcessing module ${module}"
 
-	mkdir "${testSet}/coverage"
-	
-	coverage run --omit="/home/auri/.pyenv/*,*test_*" --branch -m pytest ./${testSet}/
-	coverage report --omit="/home/auri/.pyenv/*,*test_*" > ./${testSet}/coverage/covereageReport.txt
-	coverage html --omit="/home/auri/.pyenv/*,*test_*" -d ./${testSet}/coverage
-	coverage xml --omit="/home/auri/.pyenv/*,*test_*" -o ./${testSet}/coverage/covereageReport.xml
-	coverage json --omit="/home/auri/.pyenv/*,*test_*" -o ./${testSet}/coverage/covereageReport.json
-	
-	rm -rf .pytest_cache
-	rm -rf __pycache__ ./${testSet}/__pycache__
+      rm -rf "${testSet}/coverage" .coverage .pytest_cache __pycache__ htmlcov
+
+      mkdir "${testSet}/coverage"
+      
+      coverage run --omit="/home/auri/.pyenv/*,*test_*" --branch -m pytest ./${testSet}/
+      coverage report --omit="/home/auri/.pyenv/*,*test_*" > ./${testSet}/coverage/covereageReport.txt
+      coverage html --omit="/home/auri/.pyenv/*,*test_*" -d ./${testSet}/coverage
+      coverage xml --omit="/home/auri/.pyenv/*,*test_*" -o ./${testSet}/coverage/covereageReport.xml
+      coverage json --omit="/home/auri/.pyenv/*,*test_*" -o ./${testSet}/coverage/covereageReport.json
+      
+      rm -rf .pytest_cache
+      rm -rf __pycache__ ./${testSet}/__pycache__
+   done
 done

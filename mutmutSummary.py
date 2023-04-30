@@ -9,41 +9,48 @@ import re
 
 def main():
     if len(sys.argv) < 3:
-        print("error: mutmutSummary.py <project root dir> <data-file> <test-set>")
-        print("Example: mutmutSummary.py /home/auri/python_experiments2 files.txt DYNAMOSA")
+        print("error: mutmutSummary.py <project root dir> <data-file> <test-set-file>")
+        print("Example: mutmutSummary.py /home/auri/python_experiments2 files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]
     dataFile = sys.argv[2]
-    testSet = sys.argv[3]
+    testSetFile = sys.argv[3]
     prjList = baseDir+"/"+dataFile
-    
-    prjReport = baseDir+"/report-mutmut-"+testSet+".csv"
+    testSetList = baseDir+"/"+testSetFile
 
-    dados = open(prjList, 'r')
-    output = open(prjReport, 'w') 
+    dadosTestSets = open(testSetList, 'r')
 
-    output.write("project;filename;mutants;killed;survived;mutation score\n")
+    for testSet in dadosTestSets:
+        testSet = testSet.strip()
+        print("Processing test set: ", testSet)
+        prjReport = baseDir+"/report-mutmut-"+testSet+".csv"
 
-    for x in dados:
-        x = x.strip()
-        info = x.split(':')
-        prj = info[0]
-        clazz = info[1]
-        
-        prjDir = baseDir + "/" + prj + "/" + testSet
-        
-        mutmutDir = prjDir + "/mutmut"
-        
-        isExist = os.path.exists(mutmutDir)
-        if (not isExist):
-            print("Error: project",prj," does not contains mutpy data")
-            exit(1)
+        dados = open(prjList, 'r')
+        output = open(prjReport, 'w')  
+
+        output.write("project;filename;mutants;killed;survived;mutation score\n")
+
+        for x in dados:
+            x = x.strip()
+            info = x.split(':')
+            prj = info[0]
+            clazz = info[1]
             
-        processingMutMutMetrics(prj, clazz, mutmutDir, output)
+            prjDir = baseDir + "/" + prj + "/" + testSet
+            
+            mutmutDir = prjDir + "/mutmut"
+            
+            isExist = os.path.exists(mutmutDir)
+            if (not isExist):
+                print("Error: project",prj," does not contains mutpy data")
+                exit(1)
+                
+            processingMutMutMetrics(prj, clazz, mutmutDir, output)
 
-    dados.close()
-    output.close()
+        dados.close()
+        output.close()
+    dadosTestSets.close()
 
 
 def processingMutMutMetrics(prj, clazz, mutpyDir, output):

@@ -8,43 +8,57 @@ import os
 import re
 
 def main():
-    if len(sys.argv) < 3:
-        print("error: timeSummary.py <project root dir> <data-file> <test-set> <mutation-tool>")
-        print("Example: timeSummary.py /home/auri/python_experiments2 files.txt DYNAMOSA cosmic-ray")
+    if len(sys.argv) < 4:
+        print("error: timeSummary.py <project root dir> <data-file> <test-set-file> <mutation-tool-file>")
+        print("Example: timeSummary.py /home/auri/python_experiments2 files.txt test-sets.txt mutation-tools.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]
     dataFile = sys.argv[2]
-    testSet = sys.argv[3]
-    mutTool = sys.argv[4]
+    testSetFile = sys.argv[3]
+    mutToolFile = sys.argv[4]
     prjList = baseDir+"/"+dataFile
-    
-    prjReport = baseDir+"/time-report-"+mutTool+"-"+testSet+".csv"
+    testSetList = baseDir+"/"+testSetFile
+    mutToolList = baseDir+"/"+mutToolFile
 
-    dados = open(prjList, 'r')
-    output = open(prjReport, 'w') 
+    dadosMutTool = open(mutToolList, 'r')
 
-    output.write("project;filename;real;user;sys\n")
+    for mutTool in dadosMutTool:
+        mutTool = mutTool.strip()
+        print("Processing mutation tool: ", mutTool)
+        dadosTestSets = open(testSetList, 'r')
 
-    for x in dados:
-        x = x.strip()
-        info = x.split(':')
-        prj = info[0]
-        clazz = info[1]
+        for testSet in dadosTestSets:
+            testSet = testSet.strip()
+            print("Processing test set: ", testSet)
+            prjReport = baseDir+"/time-report-"+mutTool+"-"+testSet+".csv"
+
+            dados = open(prjList, 'r')
+            output = open(prjReport, 'w')
         
-        prjDir = baseDir + "/" + prj + "/" + testSet
-        
-        mutDir = prjDir + "/" + mutTool
-        
-        isExist = os.path.exists(mutDir)
-        if (not isExist):
-            print("Error: project",prj," does not contains cosmic ray data")
-            exit(1)
-            
-        processingTimeMetrics(prj, clazz, mutDir, mutTool, output)
+            output.write("project;filename;real;user;sys\n")
 
-    dados.close()
-    output.close()
+            for x in dados:
+                x = x.strip()
+                info = x.split(':')
+                prj = info[0]
+                clazz = info[1]
+                
+                prjDir = baseDir + "/" + prj + "/" + testSet
+                
+                mutDir = prjDir + "/" + mutTool
+                
+                isExist = os.path.exists(mutDir)
+                if (not isExist):
+                    print("Error: project",prj," does not contains cosmic ray data")
+                    exit(1)
+                    
+                processingTimeMetrics(prj, clazz, mutDir, mutTool, output)
+
+            dados.close()
+            output.close()
+        dadosTestSets.close()
+    dadosMutTool.close()
 
 def processingTimeMetrics(prj, clazz, mutDir, mutTool, output):
     reportFile = mutDir + "/" + mutTool + ".time"

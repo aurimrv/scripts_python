@@ -9,41 +9,48 @@ import re
 
 def main():
     if len(sys.argv) < 3:
-        print("error: mutatestSummary.py <project root dir> <data-file> <test-set>")
-        print("Example: mutatestSummary.py /home/auri/python_experiments2 files.txt DYNAMOSA")
+        print("error: mutatestSummary.py <project root dir> <data-file> <test-set-file>")
+        print("Example: mutatestSummary.py /home/auri/python_experiments2 files.txt test-sets.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]
     dataFile = sys.argv[2]
-    testSet = sys.argv[3]
+    testSetFile = sys.argv[3]
     prjList = baseDir+"/"+dataFile
-    
-    prjReport = baseDir+"/report-mutatest-"+testSet+".csv"
+    testSetList = baseDir+"/"+testSetFile
 
-    dados = open(prjList, 'r')
-    output = open(prjReport, 'w') 
+    dadosTestSets = open(testSetList, 'r')
 
-    output.write("project;filename;mutants;killed;survived;mutation score\n")
+    for testSet in dadosTestSets:
+        testSet = testSet.strip()
+        print("Processing test set: ", testSet)
+        prjReport = baseDir+"/report-mutatest-"+testSet+".csv"
 
-    for x in dados:
-        x = x.strip()
-        info = x.split(':')
-        prj = info[0]
-        clazz = info[1]
-        
-        prjDir = baseDir + "/" + prj + "/" + testSet
-        
-        mutatestDir = prjDir + "/mutatest"
-        
-        isExist = os.path.exists(mutatestDir)
-        if (not isExist):
-            print("Error: project",prj," does not contains cosmic ray data")
-            exit(1)
+        dados = open(prjList, 'r')
+        output = open(prjReport, 'w') 
+
+        output.write("project;filename;mutants;killed;survived;mutation score\n")
+
+        for x in dados:
+            x = x.strip()
+            info = x.split(':')
+            prj = info[0]
+            clazz = info[1]
             
-        processingMutatestMetrics(prj, clazz, mutatestDir, testSet, output)
+            prjDir = baseDir + "/" + prj + "/" + testSet
+            
+            mutatestDir = prjDir + "/mutatest"
+            
+            isExist = os.path.exists(mutatestDir)
+            if (not isExist):
+                print("Error: project",prj," does not contains cosmic ray data")
+                exit(1)
+                
+            processingMutatestMetrics(prj, clazz, mutatestDir, testSet, output)
 
-    dados.close()
-    output.close()
+        dados.close()
+        output.close()
+    dadosTestSets.close()
 
 def processingMutatestMetrics(prj, clazz, mutatestDir, testSet, output):
     reportFile = mutatestDir + "/"+ testSet +"-report.rst"

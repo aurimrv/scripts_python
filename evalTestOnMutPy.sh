@@ -5,38 +5,44 @@
 
 if (($# < 2))
 then
-	echo "error: evalTestOnMutPy.sh <project root dir> <test case directory>"
-	echo "Example: evalTestOnMutPy.sh /home/auri/temp/lucca/python_experiments DYNAMOSA"
+	echo "error: evalTestOnCosmicRay.sh <project root dir> <test-set-file>"
+	echo "Example: evalTestOnCosmicRay.sh /home/auri/temp/lucca/python_experiments test-sets.txt"
 	exit
 fi
 
 baseDir=$1
-tcDir=$2
+testSetFile=$2
 
 tool=mutpy
 
-projectsData=$(cat "${baseDir}/files.txt")
-
-for project in $projectsData
+# Iterando sobre o arquivo de test-sets
+testSetData=$(cat "${baseDir}/${testSetFile}")
+for testSet in $testSetData
 do
-	prjArr=($(echo $project | tr ":" "\n"))
-	prjDir="${prjArr[0]}"
-	clazz="${prjArr[1]}"
-	module="${clazz%%.*}"
 
-	echo "Processing program $clazz"
-	cd "${baseDir}/${module}"
+	projectsData=$(cat "${baseDir}/files.txt")
 
-	# Cleaning previous report
-	rm -rf ./${tcDir}/${tool}
-	mkdir ./${tcDir}/${tool}
+	for project in $projectsData
+	do
+		prjArr=($(echo $project | tr ":" "\n"))
+		prjDir="${prjArr[0]}"
+		clazz="${prjArr[1]}"
+		module="${clazz%%.*}"
 
-	cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/${tool}"
+		echo "Processing program $clazz"
+		cd "${baseDir}/${module}"
 
-	/usr/bin/time -o ${tool}.time --quiet -p $cmd >& ${tool}.out
+		# Cleaning previous report
+		rm -rf ./${tcDir}/${tool}
+		mkdir ./${tcDir}/${tool}
 
-	mv ${tool}.time ${tool}.out ./${tcDir}/${tool}
+		cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --tb=no --report-html ./${tcDir}/${tool}"
 
-	rm -rf __pycache__
-	rm -rf ./${tcDir}/__pycache__
+		/usr/bin/time -o ${tool}.time --quiet -p $cmd >& ${tool}.out
+
+		mv ${tool}.time ${tool}.out ./${tcDir}/${tool}
+
+		rm -rf __pycache__
+		rm -rf ./${tcDir}/__pycache__
+	done
 done
