@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
-# Script que junta todos os dados de tamanho de conjunto de mutantes em uma planilha
+# Script que junta todos os dados de mutação em uma única planilha
 # Cada coluna do novo arquivo simboliza uma combinação dos algoritmos da pynguin
 
 import sys
 
 def main():
     if len(sys.argv) < 2:
-        print("error: sizeCompiled.py <project root dir> <test-sets file name> <mutation-tool>")
-        print("Example: sizeCompiled.py /home/auri/python_experiments2 test-sets.txt mutation-tools.txt")
+        print("error: mutationScoreCompiled.py <project root dir> <test-sets file name> <mutation-tool-file>")
+        print("Example: mutationScoreCompiled.py /home/auri/python_experiments2 test-sets.txt mutation-tools.txt")
         sys.exit(1)
 
     baseDir = sys.argv[1]
@@ -21,7 +21,7 @@ def main():
     for mutTool in dadosMutTool:
         mutTool = mutTool.strip()
         print("Processing mutation tool: ", mutTool)
-        prjReport = baseDir+"/compiled-size-report-"+mutTool+".csv"
+        prjReport = baseDir+"/compiled-mutation-score-report-"+mutTool+".csv"
 
         testSetsFileName = baseDir+"/"+testSets
 
@@ -43,7 +43,11 @@ def main():
                             data = line.split(";")
                             if (testSetCount == 1):
                                 summaryData[data[0]] = []
-                            summaryData[data[0]].append(data[2])
+                                #summaryData[data[0]].append(data[1])
+                            #if (mutTool == 'mutpy'):
+                            #    summaryData[data[0]].append(data[7])
+                            #else:
+                            summaryData[data[0]].append(data[len(data)-1])
                     testSetCount = testSetCount + 1
         
         with open(prjReport,'w') as outputFile:
