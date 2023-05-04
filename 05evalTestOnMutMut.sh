@@ -37,7 +37,7 @@ do
 		mkdir ./${tcDir}/${tool}
 
 		# MutMut execution command line
-		/usr/bin/time -o ${tool}.time --quiet -p mutmut run --paths-to-mutate ${module}.py --tests-dir ./${tcDir} --runner "python3 -m pytest --tb=no ./${tcDir}" >& ${tool}.out
+		/usr/bin/time -o ${tool}.time --quiet -p mutmut run --paths-to-mutate ${module}.py --tests-dir ./${tcDir} --runner "python -m pytest --tb=no ./${tcDir}" >& ${tool}.out
 
 		mutmut html
 

@@ -36,7 +36,7 @@ do
 		rm -rf ./${tcDir}/${tool}
 		mkdir ./${tcDir}/${tool}
 
-		cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --tb=no --report-html ./${tcDir}/${tool}"
+		cmd="mut.py -e -m -c --debug -t ${module}.py -u ./${tcDir} --runner pytest --report-html ./${tcDir}/${tool}"
 
 		/usr/bin/time -o ${tool}.time --quiet -p $cmd >& ${tool}.out
 
