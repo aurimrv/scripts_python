@@ -1,0 +1,18 @@
+#Metrics tools
+radon==5.1.0
+
+#testing tools
+pytest==7.2.1
+coverage==5.5 #version required by mutatest
+
+#test generators
+pynguin==0.31.0
+
+#mutation tools
+mutmut==2.4.3 #Released: Dez 11, 2022
+mutatest==3.1.0 #Released: Feb 20, 2022
+cosmic-ray==8.3.5 #Released: Aug 17, 2021
+#mutpy==0.7.1  #Installed by Pynguin via MutPy-Pynguin==0.7.1
+
+#other packages
+astpretty==3.0.0

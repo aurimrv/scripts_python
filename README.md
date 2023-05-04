@@ -40,6 +40,10 @@ In the current project, we have a file, named `files.txt` with the content speci
 
 ### Static Metrics
 
+Using the script `00metricsCalculation.py`, we can collect a set of static metrics for each project. The scripts requires two mandatory parameter: `<project root dir>` and `<test-set-file>`. From the `<project root dir>` it looks for `<test-set-file>` and calculates the set of metrics for each Python project listed on `<test-set-file>`.
+
+After execution, the scripts generates a file named `report-radon-metrics.csv` inside `<project root dir>` directory.
+
 ### Pynguin test sets for each algorithm
 
 Utilizing the script `00runPynguin.sh`, we can execute the automatic test set generator with different algorithms.

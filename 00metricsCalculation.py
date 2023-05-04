@@ -1,6 +1,7 @@
 #########################################################
 # Script for collecting static metrics for a set of 
 # Python files
+# Requires radon (https://pypi.org/project/radon/) 
 #########################################################
 
 import sys
@@ -10,14 +11,15 @@ import re
 import json
 
 def main():
-	if len(sys.argv) < 2:
-		print("error: metricsCalculation.py <project root dir>")
-		print("Example: python metricsCalculation.py /home/auri/temp/lucca/python_experiments")
+	if len(sys.argv) < 3:
+		print("error: 00metricsCalculation.py <project root dir>  <test-set-file>")
+		print("Example: python 00metricsCalculation.py /home/auri/temp/lucca/python_experiments files.txt")
 		sys.exit(1)
 
 	baseDir = sys.argv[1]
+	testSetFile =  sys.argv[2]
 
-	prjList = baseDir+"/files.txt"
+	prjList = baseDir+"/"+testSetFile
 	prjReport = baseDir+"/report-radon-metrics.csv"
 
 	dados = open(prjList, 'r')
