@@ -52,8 +52,44 @@ def main():
         output.close()
     dadosTestSets.close()
 
-
 def processingMutMutMetrics(prj, clazz, mutpyDir, output):
+    reportFile = mutpyDir + "/mutmut.out"
+
+    with open(reportFile, 'r') as f:
+        last_line = f.readlines()[-1]
+    last_line = last_line.strip()
+
+    values = last_line.split()
+    
+    totalMutants = int(values[1].split("/")[1])
+    killedMutants = int(values[3])
+    timeoutMutants = int(values[5])
+    suspiciousMutants = int(values[7])
+    survivingMutants = int(values[9])
+    skippedMutants = int(values[11])
+
+    killedMutants = killedMutants + timeoutMutants + suspiciousMutants
+    totalMutants = totalMutants - skippedMutants
+
+    mutationScore = (killedMutants/totalMutants)*100
+    output.write("%s;%s;%d;%d;%d;%.2f\n" % (prj,clazz,totalMutants,killedMutants, survivingMutants, mutationScore))
+
+def read_n_to_last_line(filename, n = 1):
+    """Returns the nth before last line of a file (n=1 gives last line)"""
+    num_newlines = 0
+    with open(filename, 'rb') as f:
+        try:
+            f.seek(-2, os.SEEK_END)    
+            while num_newlines < n:
+                f.seek(-2, os.SEEK_CUR)
+                if f.read(1) == b'\n':
+                    num_newlines += 1
+        except OSError:
+            f.seek(0)
+        last_line = f.readline().decode()
+    return last_line
+
+def processingMutMutMetricsFromHTML(prj, clazz, mutpyDir, output):
     reportFile = mutpyDir + "/html/index.html"
     with open(reportFile, 'r') as f:
         for linha in f:

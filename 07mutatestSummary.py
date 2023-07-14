@@ -57,17 +57,24 @@ def processingMutatestMetrics(prj, clazz, mutatestDir, testSet, output):
     with open(reportFile, 'r') as f:
         killedMutants = 0
         timeoutMutants = 0
+        errorMutants = 0
         for linha in f:
             matchKilled = re.search(r'- DETECTED: (\d+)', linha)
             if matchKilled:
                 killedMutants = int(matchKilled.group(1))
+            matchError = re.search(r'- ERROR: (\d+)', linha) 
+            if matchError:
+                errorMutants = int(matchError.group(1))                   
             matchTimeout = re.search(r'- TIMEOUT: (\d+)', linha) 
             if matchTimeout:
                 timeoutMutants = int(matchTimeout.group(1))   
             matchTotal = re.search(r'- TOTAL RUNS: (\d+)', linha)
             if matchTotal:
                 totalMutants = int(matchTotal.group(1))
+        
         killedMutants = killedMutants + timeoutMutants
+        totalMutants = totalMutants - errorMutants
+
         survivingMutants = totalMutants - killedMutants
         mutationScore = (killedMutants/totalMutants)*100
         output.write("%s;%s;%d;%d;%d;%.2f\n" % (prj,clazz,totalMutants,killedMutants, survivingMutants, mutationScore))
