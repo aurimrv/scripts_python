@@ -3,24 +3,26 @@
 # Script that runs Mutatest mutation tool in a set of programs
 #######################################################################
 
-if (($# < 2))
+if (($# < 3))
 then
-	echo "error: evalTestOnCosmicRay.sh <project root dir> <test-set-file>"
-	echo "Example: evalTestOnCosmicRay.sh /home/auri/temp/lucca/python_experiments test-sets.txt"
+	echo "error: 05evalTestOnCosmicRay.sh <project root dir> <data-file> <test-set-file>"
+	echo "Example: 05evalTestOnCosmicRay.sh /home/auri/temp/lucca/python_experiments files.txt test-sets.txt"
 	exit
 fi
 
 baseDir=$1
-testSetFile=$2
+dataFile=$2
+testSetFile=$3
 
 tool=mutatest
 
 # Iterando sobre o arquivo de test-sets
 testSetData=$(cat "${baseDir}/${testSetFile}")
-for testSet in $testSetData
+for tcDir in $testSetData
 do
+	echo "Processing test set: $tcDir"
 
-	projectsData=$(cat "${baseDir}/files.txt")
+	projectsData=$(cat "${baseDir}/${dataFile}")
 
 	for project in $projectsData
 	do
@@ -29,14 +31,14 @@ do
 		clazz="${prjArr[1]}"
 		module="${clazz%%.*}"
 
-		echo "Processing program $clazz"
+		echo -e "\tProcessing program $clazz"
 		cd "${baseDir}/${module}"
 
 		# Cleaning previous report
 		rm -rf ./${tcDir}/${tool}
 		mkdir ./${tcDir}/${tool}
 
-		/usr/bin/time -o ${tool}.time --quiet -p mutatest -s ${module}.py -t "python -m pytest --tb=no ./${tcDir}" -m f -o ${tcDir}/${tool}/${tcDir}-report.rst >& ${tool}.out
+		/usr/bin/time -o ${tool}.time --quiet -p mutatest -s ${module}.py -t "python -m pytest --tb=no ./${tcDir}" -r 2023 -m f -o ${tcDir}/${tool}/${tcDir}-report.rst >& ${tool}.out
 
 		mv ${tool}.time ${tool}.out ./${tcDir}/${tool}
 
