@@ -16,3 +16,4 @@ cosmic-ray==8.3.5 #Released: Aug 17, 2021
 
 #other packages
 astpretty==3.0.0
+beautifulsoup4==4.12.2
