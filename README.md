@@ -127,3 +127,8 @@ SELECT operator_name, count(*) FROM mutation_specs GROUP by operator_name
 ```
 
 The script `my-cr-report.py` uses Python to access such a database file.
+
+```
+SELECT MS.operator_name, count(*) FROM mutation_specs as MS, work_results as WR WHERE MS.job_id = WR.job_id and WR.test_outcome is "KILLED" GROUP by MS.operator_name
+
+```
