@@ -25,7 +25,7 @@ def main():
 	dados = open(prjList, 'r')
 	output = open(prjReport, 'w') 
 
-	output.write("prj;classes;methods;cc;rank_cc;lloc;sloc;mi;rank_mi;h1;h2;N1;N2;vocabulary;length;calculated_length;volume;difficulty;effort;time;bugs\n")
+	output.write("prj;type;cl/mo;me/fu;cc_max;rank_cc;lloc;sloc;mi;rank_mi;h1;h2;N1;N2;vocabulary;length;calculated_length;volume;difficulty;effort;time;bugs\n")
 
 	for x in dados:
 		x = x.strip()
@@ -70,16 +70,23 @@ def processingCCMetrics(clazz, metricsDir, output):
 	nMethods = 0
 	ccMax = 0
 	rankCC = 'A'
+	type='OO'
 	for data in cc_dict[clazz]:
 		if (data['type'] == 'class'):
 			nClazz = nClazz + 1
 			nMethods = nMethods + len(data['methods'])
-			if (ccMax < data['complexity']):
+			
+		elif (data['type'] == 'function'):
+			type='ST'
+			nClazz = 1
+			nMethods = nMethods + 1
+
+		if (ccMax < data['complexity']):
 				ccMax = data['complexity']
-			if (rankCC < data['rank']):
+		if (rankCC < data['rank']):
 				rankCC = data['rank']
 	
-	output.write("%s;%s;%s;%s;%s" % (clazz,nClazz,nMethods,ccMax,rankCC))
+	output.write("%s;%s;%s;%s;%s;%s" % (clazz,type,nClazz,nMethods,ccMax,rankCC))
 
 # Função para processamento dos dados sobre Tamanho
 def processingRawMetrics(clazz, metricsDir, output):
